@@ -11,10 +11,17 @@
             <button name="next" (click)="isNextClicked()">Suivant</button>
         </div>
     </div>
-    <div id="panel">
-        <div *ngFor="let color of objectKeys(colors)" class="color" [style.color]="getTextColor(colors[color])">
-            <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(paints[currentIndex].hex)">{{ capitalize(color) }}</span>
-        </div> 
+    <div id="panels">
+        <div id="normalpanel">
+            <div *ngFor="let color of getColors('normal')" class="color" [style.color]="getTextColor(colors[color])">
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(paints[currentIndex].hex)">{{ capitalize(color) }}</span>
+            </div> 
+        </div>
+        <div id="metallicpanel" [style.visibility]="isMetallicPaint() ? 'visible' : 'hidden'">
+            <div *ngFor="let color of getColors('metallic')" class="color" [style.color]="getTextColor(colors[color])">
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(paints[currentIndex].hex)">{{ capitalize(color) }}</span>
+            </div> 
+        </div>
     </div>
     <div id="savespace">
         <label for="load">Charger</label>

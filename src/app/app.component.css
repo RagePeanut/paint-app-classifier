@@ -57,18 +57,21 @@
   background-color: grey;
 }
 
-#panel {
+#panels {
+  position: absolute;
+  bottom: 0;
+}
+
+#normalpanel, #metallicpanel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  position: absolute;
-  bottom: 0;
   -ms-flex-flow: wrap;
       flex-flow: wrap;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 50px;
+  padding: 0 50px 50px 50px;
 }
 
 .color {
@@ -76,7 +79,7 @@
   width: 120px;
   -webkit-box-shadow: 10px 10px 25px #00000078;
           box-shadow: 10px 10px 25px #00000078;
-  margin: 0 15px;
+  margin: 30px 15px 0 15px;
   font-family: 'Gotham Rounded';
   text-transform: uppercase;
 }

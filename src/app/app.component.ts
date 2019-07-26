@@ -1,6 +1,6 @@
 declare var require: any;
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import * as fontColorContrast from 'font-color-contrast';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -10,15 +10,18 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    objectKeys = Object.keys;
     paints: any[] = (require('../assets/paints.json')).paints;
     currentIndex: number = (require('../assets/paints.json')).currentIndex;
     colors = {
         beige: '#f5f5dc',
         black: '#000000',
         blue: '#0000ff',
+        brass: '#b5a642',
+        bronze: '#b08d57',
         brown: '#a52a2a',
+        copper: '#b87333',
         flesh: '#d2b48c',
+        gold: '#ffd700',
         green: '#008000',
         grey: '#808080',
         ivory: '#fffff0',
@@ -27,10 +30,13 @@ export class AppComponent implements OnInit {
         purple: '#800080',
         red: '#ff0000',
         sand: '#f4a460',
+        silver: '#c0c0c0',
+        steel: '#8f908f',
         turquoise: '#40e0d0',
         white: '#ffffff',
         yellow: '#ffff00'
     };
+    metalColors = ['brass', 'bronze', 'copper', 'gold', 'silver', 'steel'];
     reader: any;
     jsonUrl: SafeResourceUrl;
 
@@ -45,6 +51,14 @@ export class AppComponent implements OnInit {
         };
         const blob = new Blob([JSON.stringify({paints: this.paints, currentIndex: this.currentIndex})], { type: 'application/json' });
         this.jsonUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    }
+
+    @HostListener('document:keypress', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent): void {
+        console.log(event);
+        if (event.charCode === 32) {
+            this.isNextClicked();
+        }
     }
 
     isActive(color: string): boolean {
@@ -67,6 +81,10 @@ export class AppComponent implements OnInit {
         this.reader.readAsText(event.target.files[0]);
     }
 
+    isMetallicPaint(): boolean {
+        return this.paints[this.currentIndex].types.includes('metallic');
+    }
+
     changeBasicHues(color: string) {
         if (this.isActive(color)) {
             this.paints[this.currentIndex].basicHues = this.paints[this.currentIndex].basicHues.filter(bh => bh !== color);
@@ -79,6 +97,13 @@ export class AppComponent implements OnInit {
 
     getTextColor(background: string): string {
         return fontColorContrast(background);
+    }
+
+    getColors(type: string): string[] {
+        if (type === 'normal') {
+            return Object.keys(this.colors).filter(color => !this.metalColors.includes(color));
+        }
+        return Object.keys(this.colors).filter(color => this.metalColors.includes(color));
     }
 
     capitalize(text: string): string {
