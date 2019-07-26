@@ -1,0 +1,84 @@
+@import "../_mixins.scss"
+
+#app
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    transition: background-color 200ms ease-in-out
+#center
+    position: relative
+    top: -100px
+    font-family: 'Gotham Rounded'
+    text-transform: uppercase
+    h1
+        font-size: 4rem
+        text-align: center
+        margin: 40px
+    #colors
+        display: flex
+        justify-content: center
+        height: 120px
+    #buttons
+        display: flex
+        justify-content: center
+        button
+            cursor: pointer
+            @include size(50, 200)
+            margin: 0 15px
+            font-family: 'Gotham Rounded'
+            font-size: 20px
+            border: none
+            color: floralwhite
+            background-color: grey
+#panel
+    display: flex
+    position: absolute
+    bottom: 0
+    flex-flow: wrap
+    justify-content: center
+    padding: 50px
+.color
+    @include square(120)
+    box-shadow: 10px 10px 25px #00000078
+    margin: 0 15px
+    font-family: 'Gotham Rounded'
+    text-transform: uppercase
+    span
+        position: relative
+        display: block
+        text-align: center
+        line-height: 120px
+        @include square(120)
+        &:hover
+            cursor: pointer
+        &.active
+            top: -5px
+            left: -5px
+        &.inactive
+            border-width: 0 !important
+            &:hover
+                border-width: 5px !important
+                top: -5px
+                left: -5px
+    &:hover
+        box-shadow: none
+#savespace
+    position: absolute
+    top: 15px
+    left: 0
+    a, label
+        display: inline-block
+        text-align: center
+        cursor: pointer
+        @include size(50, 200)
+        margin: 0 10px
+        font-family: 'Gotham Rounded'
+        font-size: 20px
+        border: none
+        color: floralwhite
+        background-color: grey
+        vertical-align: bottom
+        line-height: 50px
+    input
+        display: none
