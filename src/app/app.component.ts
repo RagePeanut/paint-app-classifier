@@ -11,8 +11,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
     objectKeys = Object.keys;
-    paints: any[] = (require('../../paints.json')).paints;
-    currentIndex: number = (require('../../paints.json')).currentIndex;
+    paints: any[] = (require('../assets/paints.json')).paints;
+    currentIndex: number = (require('../assets/paints.json')).currentIndex;
     colors = {
         beige: '#f5f5dc',
         black: '#000000',
