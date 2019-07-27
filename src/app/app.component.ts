@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
         this.createBlob();
     }
 
-    @HostListener('document:keypress', ['$event'])
+    @HostListener('document:keyup', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent): void {
         if (event.charCode === 32) {
             this.isNextClicked();
