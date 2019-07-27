@@ -73,7 +73,9 @@ export class AppComponent implements OnInit {
                 break;
             case 16: // Shift
             case 17: // Control
-                this.isSideClicked();
+                if (this.aside.length > 0 && this.paints.length > 0) {
+                    this.isSideClicked();
+                }
                 break;
             case 38: // Up Arrow
             case 40: // Down Arrow
