@@ -97,6 +97,7 @@ export class AppComponent implements OnInit {
                 } else {
                     this.currentIndex[this.activeSide] = this[this.activeSide].length - 1;
                 }
+                this.createBlob();
                 break;
             case 34: // Page Down
                 if (this.currentIndex[this.activeSide] - 50 >= 0) {
@@ -104,6 +105,7 @@ export class AppComponent implements OnInit {
                 } else {
                     this.currentIndex[this.activeSide] = 0;
                 }
+                this.createBlob();
         }
     }
 
