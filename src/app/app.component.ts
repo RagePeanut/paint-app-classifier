@@ -59,7 +59,8 @@ export class AppComponent implements OnInit {
 
     @HostListener('document:keyup', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.charCode === 32) {
+        console.log(event);
+        if (event.keyCode === 32) {
             this.isNextClicked();
         }
     }
