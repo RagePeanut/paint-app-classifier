@@ -80,6 +80,28 @@ export class AppComponent implements OnInit {
             case 90: // Z
             case 83: // S
                 this.isAsideClicked();
+                break;
+            case 36: // Home
+                this.currentIndex[this.activeSide] = 0;
+                this.createBlob();
+                break;
+            case 35: // End
+                this.currentIndex[this.activeSide] = this[this.activeSide].length - 1;
+                this.createBlob();
+                break;
+            case 33: // Page Up
+                if (this.currentIndex[this.activeSide] + 50 < this[this.activeSide].length) {
+                    this.currentIndex[this.activeSide] += 50;
+                } else {
+                    this.currentIndex[this.activeSide] = this[this.activeSide].length - 1;
+                }
+                break;
+            case 34: // Page Down
+                if (this.currentIndex[this.activeSide] - 50 >= 0) {
+                    this.currentIndex[this.activeSide] -= 50;
+                } else {
+                    this.currentIndex[this.activeSide] = 0;
+                }
         }
     }
 
