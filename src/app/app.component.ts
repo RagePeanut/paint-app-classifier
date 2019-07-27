@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
         silver: '#c0c0c0',
         steel: '#8f908f',
         turquoise: '#40e0d0',
+        violet: '#ee82ee',
         white: '#ffffff',
         yellow: '#ffff00'
     };
@@ -59,7 +60,6 @@ export class AppComponent implements OnInit {
 
     @HostListener('document:keyup', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent): void {
-        console.log(event);
         if (event.keyCode === 32) {
             this.isNextClicked();
         }
