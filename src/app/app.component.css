@@ -36,6 +36,10 @@
   height: 120px;
 }
 
+#center #colors .color {
+  margin-top: 0;
+}
+
 #center #buttons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -141,5 +145,23 @@
 
 #savespace input {
   display: none;
+}
+
+#asidespace {
+  position: absolute;
+  top: 15px;
+  right: 0;
+}
+
+#asidespace button {
+  cursor: pointer;
+  height: 50px;
+  width: 200px;
+  margin: 0 10px;
+  font-family: 'Gotham Rounded';
+  font-size: 20px;
+  border: none;
+  color: floralwhite;
+  background-color: grey;
 }
 /*# sourceMappingURL=app.component.css.map */

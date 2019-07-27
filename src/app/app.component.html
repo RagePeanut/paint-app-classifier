@@ -1,25 +1,26 @@
-<div id="app" [style.background-color]="paints[currentIndex].hex" [style.color]="getTextColor(paints[currentIndex].hex)">
+<div id="app" [style.background-color]="getActivePaint().hex" [style.color]="getTextColor(getActivePaint().hex)">
     <div id="center">
         <div id="colors">
-            <div *ngFor="let basicHue of paints[currentIndex].basicHues" class="color" [style.background-color]="colors[basicHue]" [style.color]="getTextColor(colors[basicHue])">
+            <div *ngFor="let basicHue of getActivePaint().basicHues" class="color" [style.background-color]="colors[basicHue]" [style.color]="getTextColor(colors[basicHue])">
                 <span (click)="changeBasicHues(basicHue)">{{ capitalize(basicHue) }}</span>
             </div>
         </div>
-        <h1>{{ paints[currentIndex].name }}</h1>
+        <h1>{{ getActivePaint().name }}</h1>
         <div id="buttons">
             <button name="previous" (click)="isPreviousClicked()">Précédent</button>
+            <button name="aside" (click)="isAsideClicked()">{{ activeSide === 'paints' ? 'Mettre de côté' : 'Enlever de côté' }}</button>
             <button name="next" (click)="isNextClicked()">Suivant</button>
         </div>
     </div>
     <div id="panels">
         <div id="normalpanel">
             <div *ngFor="let color of getColors('normal')" class="color" [style.color]="getTextColor(colors[color])">
-                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(paints[currentIndex].hex)">{{ capitalize(color) }}</span>
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex)">{{ capitalize(color) }}</span>
             </div> 
         </div>
         <div id="metallicpanel" [style.visibility]="isMetallicPaint() ? 'visible' : 'hidden'">
             <div *ngFor="let color of getColors('metallic')" class="color" [style.color]="getTextColor(colors[color])">
-                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(paints[currentIndex].hex)">{{ capitalize(color) }}</span>
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex)">{{ capitalize(color) }}</span>
             </div> 
         </div>
     </div>
@@ -27,5 +28,8 @@
         <label for="load">Charger</label>
         <input (change)="isFileLoaded($event)" id="load" type="file">
         <a [href]="jsonUrl" name="save" download="paints.json">Sauvegarder</a>
+    </div>
+    <div id="asidespace" [style.visibility]="aside.length > 0 && paints.length > 0 ? 'visible' : 'hidden'">
+        <button name="side" (click)="isSideClicked()">Changer de côté</button>
     </div>
 </div>

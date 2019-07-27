@@ -11,7 +11,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
     paints: any[] = (require('../assets/paints.json')).paints;
-    currentIndex: number = (require('../assets/paints.json')).currentIndex;
+    aside: any[] = (require('../assets/paints.json')).aside;
+    currentIndex: any = (require('../assets/paints.json')).currentIndex;
+    activeSide: string = (require('../assets/paints.json')).activeSide;
     colors = {
         beige: '#f5f5dc',
         black: '#000000',
@@ -47,34 +49,61 @@ export class AppComponent implements OnInit {
         this.reader.onload = () => {
             const result = JSON.parse(this.reader.result);
             this.paints = result.paints;
+            this.aside = result.aside;
             this.currentIndex = result.currentIndex;
+            this.activeSide = result.activeSide;
         };
-        const blob = new Blob([JSON.stringify({paints: this.paints, currentIndex: this.currentIndex})], { type: 'application/json' });
-        this.jsonUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+        this.createBlob();
     }
 
     @HostListener('document:keypress', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent): void {
-        console.log(event);
         if (event.charCode === 32) {
             this.isNextClicked();
         }
     }
 
+    createBlob(): void {
+        // tslint:disable-next-line:max-line-length
+        const blob = new Blob([JSON.stringify({paints: this.paints, aside: this.aside, currentIndex: this.currentIndex, activeSide: this.activeSide})], { type: 'application/json' });
+        this.jsonUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    }
+
     isActive(color: string): boolean {
-        return this.paints[this.currentIndex].basicHues.includes(color);
+        return this.getActivePaint().basicHues.includes(color);
     }
 
     isPreviousClicked(): void {
-        if (this.currentIndex > 0) {
-            this.currentIndex--;
+        if (this.currentIndex[this.activeSide] > 0) {
+            this.currentIndex[this.activeSide]--;
         }
+        this.createBlob();
     }
 
     isNextClicked(): void {
-        if (this.currentIndex < this.paints.length - 1) {
-            this.currentIndex++;
+        if (this.currentIndex[this.activeSide] < this[this.activeSide].length - 1) {
+            this.currentIndex[this.activeSide]++;
         }
+        this.createBlob();
+    }
+
+    isAsideClicked(): void {
+        this[this.activeSide === 'paints' ? 'aside' : 'paints'].push(this.getActivePaint());
+        this[this.activeSide] = this[this.activeSide].filter(p => p.id !== this.getActivePaint().id);
+        if (this.currentIndex[this.activeSide] >= this[this.activeSide].length) {
+            if (this.currentIndex[this.activeSide] === 0) {
+                this.isSideClicked();
+            } else {
+                this.isPreviousClicked();
+            }
+        } else {
+            this.createBlob();
+        }
+    }
+
+    isSideClicked(): void {
+        this.activeSide = this.activeSide === 'paints' ? 'aside' : 'paints';
+        this.createBlob();
     }
 
     isFileLoaded(event: any): void {
@@ -82,17 +111,17 @@ export class AppComponent implements OnInit {
     }
 
     isMetallicPaint(): boolean {
-        return this.paints[this.currentIndex].types.includes('metallic');
+        return this.getActivePaint().types.includes('metallic');
     }
 
     changeBasicHues(color: string) {
         if (this.isActive(color)) {
-            this.paints[this.currentIndex].basicHues = this.paints[this.currentIndex].basicHues.filter(bh => bh !== color);
+            // tslint:disable-next-line:max-line-length
+            this[this.activeSide][this.currentIndex[this.activeSide]].basicHues = this.getActivePaint().basicHues.filter(bh => bh !== color);
         } else {
-            this.paints[this.currentIndex].basicHues.push(color);
+            this[this.activeSide][this.currentIndex[this.activeSide]].basicHues.push(color);
         }
-        const blob = new Blob([JSON.stringify({paints: this.paints, currentIndex: this.currentIndex})], { type: 'application/json' });
-        this.jsonUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+        this.createBlob();
     }
 
     getTextColor(background: string): string {
@@ -104,6 +133,10 @@ export class AppComponent implements OnInit {
             return Object.keys(this.colors).filter(color => !this.metalColors.includes(color));
         }
         return Object.keys(this.colors).filter(color => this.metalColors.includes(color));
+    }
+
+    getActivePaint(): any {
+        return this[this.activeSide][this.currentIndex[this.activeSide]];
     }
 
     capitalize(text: string): string {
