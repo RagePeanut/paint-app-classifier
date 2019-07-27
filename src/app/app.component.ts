@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
     @HostListener('document:keyup', ['$event'])
     handleKeyupEvent(event: KeyboardEvent): void {
         switch (event.keyCode) {
-            case 8: // Return
+            case 8: // Backspace
             case 37: // Left Arrow
             case 81: // Q
                 this.isPreviousClicked();
