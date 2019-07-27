@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
             this.aside = result.aside;
             this.currentIndex = result.currentIndex;
             this.activeSide = result.activeSide;
+            this.createBlob();
         };
         this.createBlob();
     }

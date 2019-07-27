@@ -1,4 +1,4 @@
-<div id="app" [style.background-color]="getActivePaint().hex" [style.color]="getTextColor(getActivePaint().hex)">
+<div id="app" [style.background-color]="getActivePaint().hex || '#ffffff'" [style.color]="getTextColor(getActivePaint().hex || '#ffffff')">
     <div id="center">
         <div id="colors">
             <div *ngFor="let basicHue of getActivePaint().basicHues" class="color" [style.background-color]="colors[basicHue]" [style.color]="getTextColor(colors[basicHue])">
@@ -15,12 +15,12 @@
     <div id="panels">
         <div id="normalpanel">
             <div *ngFor="let color of getColors('normal')" class="color" [style.color]="getTextColor(colors[color])">
-                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex)">{{ capitalize(color) }}</span>
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex || '#ffffff')">{{ capitalize(color) }}</span>
             </div> 
         </div>
         <div id="metallicpanel" [style.visibility]="isMetallicPaint() ? 'visible' : 'hidden'">
             <div *ngFor="let color of getColors('metallic')" class="color" [style.color]="getTextColor(colors[color])">
-                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex)">{{ capitalize(color) }}</span>
+                <span (click)="changeBasicHues(color)" [ngClass]="isActive(color) ? 'active' : 'inactive'" [style.background-color]="colors[color]" [style.border]="'5px solid ' + getTextColor(getActivePaint().hex || '#ffffff')">{{ capitalize(color) }}</span>
             </div> 
         </div>
     </div>
