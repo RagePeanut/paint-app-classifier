@@ -59,9 +59,36 @@ export class AppComponent implements OnInit {
     }
 
     @HostListener('document:keyup', ['$event'])
-    handleKeyboardEvent(event: KeyboardEvent): void {
-        if (event.keyCode === 32) {
-            this.isNextClicked();
+    handleKeyupEvent(event: KeyboardEvent): void {
+        switch (event.keyCode) {
+            case 8: // Return
+            case 37: // Left Arrow
+            case 81: // Q
+                this.isPreviousClicked();
+                break;
+            case 32: // Space
+            case 39: // Right Arrow
+            case 68: // D
+                this.isNextClicked();
+                break;
+            case 16: // Shift
+            case 17: // Control
+                this.isSideClicked();
+                break;
+            case 38: // Up Arrow
+            case 40: // Down Arrow
+            case 90: // Z
+            case 83: // S
+                this.isAsideClicked();
+        }
+    }
+
+    @HostListener('document:keydown', ['$event'])
+    handleKeydownEvent(event: KeyboardEvent): void {
+        if (event.keyCode === 83 && event.ctrlKey) {
+            event.preventDefault();
+            const downloadLink: HTMLElement = document.getElementsByName('save')[0] as HTMLElement;
+            downloadLink.click();
         }
     }
 
